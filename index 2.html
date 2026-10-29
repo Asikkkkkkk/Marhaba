@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e3b2c">
+<title>Marhaba Tea House</title>
+<style>
+:root{--emerald:#0e3b2c;--emerald-2:#17543f;--cream:#f5ecd6;--paper:#fbf6ea;--gold:#c9a24a;--gold-dark:#8a6a24;--ink:#17261f;--muted:#5f6f64;--line:#d8c7a0}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;min-height:100%}
+body{font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--cream) url("assets/bg-cream.jpg") center top/cover fixed no-repeat;padding-bottom:110px}
+
+/* ---------- Выбор языка (угол) ---------- */
+.langsel{position:fixed;top:10px;right:10px;z-index:40;background:var(--emerald);color:var(--cream);border:1px solid var(--gold);border-radius:999px;padding:7px 12px;font:600 13px system-ui,-apple-system,sans-serif;cursor:pointer;outline:none}
+
+/* ---------- Приветствие ---------- */
+.hero{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;color:var(--cream);background:var(--emerald) url("assets/bg-green.jpg") center/cover fixed no-repeat;padding:56px 20px 28px}
+.hero-mid{display:flex;flex-direction:column;align-items:center;gap:16px;margin:auto 0}
+.hero h1{font-family:Georgia,"Times New Roman",serif;font-weight:normal;font-size:clamp(28px,8vw,44px);color:var(--gold);margin:0;line-height:1.2}
+.hero .sub{margin:0;font-size:16px;opacity:.9}
+.btn-main{background:var(--gold);color:#1b1408;border:0;border-radius:999px;padding:16px 60px;font-size:18px;font-weight:700;cursor:pointer;letter-spacing:.5px;margin-top:10px}
+.contacts{display:flex;gap:18px;justify-content:center}
+.contacts a{width:46px;height:46px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);text-decoration:none}
+.contacts svg{width:22px;height:22px;fill:currentColor}
+
+/* ---------- Меню ---------- */
+#menuScreen{padding-top:0}
+#menuScreen.green{background:var(--emerald) url("assets/bg-green.jpg") center/cover fixed no-repeat;min-height:100vh;min-height:100dvh}
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:10px 130px 10px 14px;background:var(--emerald);color:var(--cream);border-bottom:2px solid var(--gold)}
+.topbar .brand{font-family:Georgia,serif;font-size:20px;flex:1;letter-spacing:.5px}
+.back{background:none;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:14px}
+.tabs{display:flex;gap:10px;padding:14px 16px 4px;max-width:640px;margin:0 auto}
+.tab{flex:1;padding:14px;border-radius:14px;border:1px solid var(--emerald);background:var(--paper);color:var(--emerald);font-size:17px;font-weight:700;cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--emerald);color:var(--cream);border-color:var(--gold)}
+main{max-width:640px;margin:0 auto;padding:6px 16px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.card{background:var(--paper);border:1px solid var(--gold);border-radius:14px;padding:22px 10px;min-height:76px;font-size:16px;font-weight:600;color:var(--emerald);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+h2{font-family:Georgia,"Times New Roman",serif;font-weight:normal;color:var(--emerald);font-size:26px;margin:14px 0 4px;padding-bottom:6px;border-bottom:1px solid var(--gold)}
+.list{background:var(--paper);border-radius:14px;padding:2px 14px 8px;margin-top:8px;border:1px solid var(--line)}
+h3.sub{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);margin:16px 0 0}
+.item,.line{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px dotted var(--line)}
+.item:last-child,.line:last-child{border-bottom:0}
+.thumb{width:56px;height:56px;border-radius:12px;flex:none;overflow:hidden;background:linear-gradient(135deg,#ecdfbf,#d8c7a0);border:1px solid var(--line)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.info{flex:1;min-width:0}
+.name{font-weight:600;color:var(--emerald)}
+.desc{font-size:13px;color:var(--muted);margin-top:2px}
+.side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.price{font-weight:700;white-space:nowrap}
+.ctl{display:flex;align-items:center;gap:8px;flex:none}
+.add,.qbtn{width:36px;height:36px;border-radius:50%;border:0;background:var(--emerald);color:var(--cream);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+.qbtn{background:var(--paper);color:var(--emerald);border:1px solid var(--emerald)}
+.count{min-width:20px;text-align:center;font-weight:700}
+.note{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 0;line-height:1.5}
+footer{max-width:640px;margin:20px auto 0;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.5;text-align:center}
+#menuScreen.green footer{color:var(--cream)}
+
+/* ---------- Корзина ---------- */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:15;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--emerald);box-shadow:0 -4px 16px rgba(0,0,0,.2)}
+.bar button{width:100%;display:flex;justify-content:center;align-items:center;padding:14px 16px;border:0;border-radius:12px;background:var(--gold);color:#1b1408;font-size:16px;font-weight:700;cursor:pointer}
+.overlay{position:fixed;inset:0;z-index:20;background:rgba(8,28,20,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--cream);width:100%;max-width:640px;max-height:90vh;overflow-y:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom))}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;font-family:Georgia,serif;font-size:22px;color:var(--emerald);margin-bottom:6px}
+.close{background:none;border:0;font-size:28px;line-height:1;color:var(--emerald);cursor:pointer}
+.empty{color:var(--muted);text-align:center;padding:20px 0}
+.row{display:flex;justify-content:space-between;padding:6px 0;font-size:15px}
+.row.big{font-size:19px;font-weight:700;color:var(--emerald);border-top:1px solid var(--line);margin-top:6px;padding-top:10px}
+label.field{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0;font-size:15px}
+input:not([type=radio]){font:inherit;font-size:16px;width:110px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+textarea{width:100%;height:150px;font:13px/1.4 ui-monospace,Menlo,monospace;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);resize:vertical}
+.btn{display:block;width:100%;margin-top:10px;padding:14px;border-radius:12px;border:1px solid var(--emerald);background:var(--emerald);color:var(--cream);font-size:16px;font-weight:700;text-align:center;text-decoration:none;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--emerald)}
+.status{min-height:20px;font-size:14px;color:var(--emerald);margin:10px 0 0}
+#billBox{margin-top:8px;padding-top:4px;border-top:1px dashed var(--gold)}
+
+/* ---------- Выбор добавки (чай) ---------- */
+.modal{max-width:640px;width:100%;background:var(--cream);border-radius:18px 18px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+.modal h3{font-family:Georgia,serif;font-weight:normal;color:var(--emerald);font-size:22px;margin:0 0 4px}
+.modal .mprice{font-size:16px;font-weight:700;color:var(--emerald);margin-bottom:8px}
+.radio{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;border-bottom:1px dotted var(--line);font-size:16px;cursor:pointer}
+.radio input{margin-right:10px;accent-color:var(--emerald);width:18px;height:18px}
+</style>
+</head>
+<body>
+
+<!-- Выбор языка: всегда в углу -->
+<select id="langSel" class="langsel" aria-label="Language">
+  <option value="kk">Қазақша</option>
+  <option value="ru">Русский</option>
+  <option value="en">English</option>
+</select>
+
+<!-- ===== Приветствие ===== -->
+<section id="welcome" class="hero">
+  <div></div>
+  <div class="hero-mid">
+    <h1>Мархаба - төрлетініз!</h1>
+    <p class="sub" id="welcomeSub"></p>
+    <button id="toMenu" class="btn-main" type="button"></button>
+  </div>
+
+  <nav class="contacts" aria-label="Контакты">
+    <a id="cPhone" href="#" aria-label="Телефон" hidden>
+      <svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+    </a>
+    <a id="cInsta" href="#" target="_blank" rel="noopener" aria-label="Instagram" hidden>
+      <svg viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM17.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+    </a>
+    <a id="cWa" href="#" target="_blank" rel="noopener" aria-label="WhatsApp" hidden>
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1 1 12 20zm4.4-5.9c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1l-.7.9c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.2 0-.3 0-.4l-.7-1.8c-.2-.4-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4 5.3 5.3 0 0 0 2.9.9 2.5 2.5 0 0 0 1.7-1.1 2 2 0 0 0 .1-1.1c0-.2-.2-.3-.4-.4z"/></svg>
+    </a>
+  </nav>
+</section>
+
+<!-- ===== Меню ===== -->
+<div id="menuScreen" hidden>
+  <header class="topbar">
+    <button id="backBtn" class="back" type="button"></button>
+    <span class="brand">Marhaba</span>
+  </header>
+  <div id="tabs" class="tabs"></div>
+  <main id="content"></main>
+  <footer id="footNote"></footer>
+</div>
+
+<!-- Плавающая панель корзины (только в меню, без цен) -->
+<div id="bar" class="bar" hidden>
+  <button id="openCart" type="button"><span id="barCount"></span></button>
+</div>
+
+<!-- Корзина -->
+<div id="drawer" class="overlay" hidden>
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="sheet-head">
+      <span id="cartTitle"></span>
+      <button id="closeCart" class="close" type="button" aria-label="×">×</button>
+    </div>
+    <div id="cartLines"></div>
+    <label class="field"><span id="tableLabel"></span>
+      <input id="table" type="text" inputmode="numeric" maxlength="3" placeholder="—">
+    </label>
+    <button id="waiterBtn" class="btn" type="button"></button>
+
+    <div id="billBox" hidden>
+      <div id="totals"></div>
+      <textarea id="orderText" readonly></textarea>
+      <button id="copyBtn" class="btn ghost" type="button"></button>
+      <a id="waLink" class="btn ghost" href="#" target="_blank" rel="noopener" hidden></a>
+    </div>
+
+    <button id="clearBtn" class="btn ghost" type="button"></button>
+    <p id="status" class="status" role="status"></p>
+  </div>
+</div>
+
+<!-- Выбор добавки (чай) -->
+<div id="modal" class="overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 id="modalTitle"></h3>
+    <div id="modalPrice" class="mprice"></div>
+    <div id="modalOpts"></div>
+    <button id="modalAdd" class="btn" type="button"></button>
+    <button id="modalCancel" class="btn ghost" type="button"></button>
+  </div>
+</div>
+
+<script>
+// ===== Настройки. Заполните — и появятся иконки на первом экране =====
+const CONFIG = {
+  phone: '',          // например '77011234567' (без +)
+  instagram: '',      // например 'marhaba_teahouse' (без @)
+  whatsapp: '',       // например '77011234567'
+  serviceRate: 0.15   // обслуживание 15%
+};
+
+// ===== Добавки к чаю (цена в тенге) =====
+const ADDONS = { lemon: { p: 300 }, honey: { p: 300 } };
+
+// ===== Helpers для данных =====
+const dd = (ru, kk, en) => ({ ru, kk, en });
+const I = (ru, kk, en, p, o = {}) => ({ n: dd(ru, kk, en), p, ...o });
+
+const GG = dd('Газированные', 'Газдалған сусындар', 'Sparkling');
+const GW = dd('Соки, вода и прочее', 'Шырындар, су және басқалары', 'Juices, water & more');
+const GL = dd('Лимонады, 1 л', 'Лимонадтар, 1 л', 'Lemonades, 1 L');
+const GT = dd('Чай (чайник)', 'Шәй (шәйнек)', 'Tea (teapot)');
+const GS = dd('Суши', 'Суши', 'Sushi');
+const GF = dd('Жареные роллы', 'Қуырылған роллдар', 'Fried rolls');
+const GB = dd('Запеченные роллы', 'Пісірілген роллдар', 'Baked rolls');
+const GP = dd('Пицца', 'Пицца', 'Pizza');
+const GFF = dd('Фастфуд', 'Фастфуд', 'Fast food');
+const DESC_FISH = dd('Свежая рыба, хрустящая корочка', 'Жаңа балық, қытырлақ қабық', 'Fresh fish, crispy crust');
+
+// ===== Кухня и напитки: данные =====
+const CATS = {
+  salads: { t: dd('Салаты', 'Салаттар', 'Salads'), items: [
+    I('Свежий салат', 'Балғын салат', 'Fresh salad', 1200),
+    I('Ачучук', 'Ачучук', 'Achuchuk', 1200),
+    I('Оливье с мясом', 'Оливье етімен', 'Olivier with meat', 2100),
+    I('Цезарь с креветками', 'Креветкамен цезарь', 'Caesar with shrimp', 2800),
+    I('Острый баклажан', 'Ащы баклажан', 'Spicy eggplant', 1800),
+    I('Греческий салат', 'Грек салаты', 'Greek salad', 2500),
+    I('Цезарь с курицей', 'Тауықпен цезарь', 'Caesar with chicken', 2800),
+    I('Тайский салат', 'Тай салаты', 'Thai salad', 2200),
+    I('Салат со свёклой, пюре и апельсином', 'Қызылша пюресі мен апельсин салаты', 'Beetroot purée & orange salad', 2600),
+    I('Салат «Қытырлақ баялды»', '«Қытырлақ баялды» салаты', 'Crispy Bayaldy salad', 2800)
+  ]},
+  soups: { t: dd('Первые блюда', 'Бірінші тағамдар', 'First courses'), items: [
+    I('Бараний суп', 'Қой етімен сорпа', 'Lamb soup', 2200),
+    I('Говяжий суп', 'Сиыр етімен сорпа', 'Beef soup', 2200),
+    I('Пельмени', 'Тұшпара', 'Tushpara (dumplings)', 1800),
+    I('Лапша с курицей', 'Тауықпен лапша', 'Noodles with chicken', 1600),
+    I('Лапша с фрикадельками', 'Фрикаделькамен лапша', 'Noodles with meatballs', 1600),
+    I('Суп «Жасымық»', 'Жасымық сорпасы', 'Zhasymyk soup', 1800),
+    I('Кукси', 'Куксі', 'Kuksi', 1800),
+    I('Окрошка', 'Окрошка', 'Okroshka', 2000),
+    I('Рамен с курицей', 'Тауықпен рамен', 'Ramen with chicken', 2400),
+    I('Рамен с говядиной', 'Сиырмен рамен', 'Ramen with beef', 2600),
+    I('Солянка', 'Солянка', 'Solyanka', 2200),
+    I('Нарын', 'Нарын', 'Naryn', 2000),
+    I('Домашний лагман', 'Үй лагманы', 'Homemade lagman', 2200)
+  ]},
+  mains: { t: dd('Вторые блюда', 'Екінші тағамдар', 'Main courses'), items: [
+    I('Бешбармак', 'Бешбармақ', 'Beshbarmak', 3200),
+    I('Жареная конина', 'Жылқы етінен қуырдақ', 'Fried horse meat', 3900),
+    I('Жареная говядина', 'Сиыр етінен қуырдақ', 'Fried beef', 4000),
+    I('Казан-кебаб', 'Қазан кебап', 'Kazan kebab', 4000),
+    I('Жареный лагман', 'Лагман гуйру', 'Fried lagman', 2600),
+    I('Лагман цомян', 'Лагман цомян', 'Lagman tsomyan', 2600),
+    I('Куриное филе с грибами в соусе', 'Саңырауқұлақты тауық еті тұздықта', 'Chicken with mushrooms in sauce', 2800, { d: dd('Гарнир — рис', 'Гарнир — күріш', 'Side: rice') }),
+    I('Мясо по-тайски', 'Тай еті', 'Thai-style meat', 2800),
+    I('Манты', 'Манты', 'Manti', 2200),
+    I('Бефстроганов с пюре', 'Бефстроганов пюресімен', 'Beef stroganoff with mashed potatoes', 2800),
+    I('Палау', 'Палау', 'Palov', 1990)
+  ]},
+  sets: { t: dd('Сеты', 'Жиынтықтар', 'Sets'), items: [
+    I('Сет 1', '1-жиынтық', 'Set 1', 3500, { d: dd('Чечевичный суп, манты, капустный салат, лепёшка', 'Мәсір сорпасы, манты, қырыққабат салаты, нан', 'Lentil soup, manti, cabbage salad, flatbread') }),
+    I('Сет 2', '2-жиынтық', 'Set 2', 3500, { d: dd('Куриный суп, плов ташкентский, ачичук, лепёшка', 'Тауық сорпасы, Ташкент палауы, ачучук, нан', 'Chicken soup, Tashkent plov, achuchuk, flatbread') }),
+    I('Сет 3', '3-жиынтық', 'Set 3', 3500, { d: dd('Борщ, жареный лагман, салат цезарь, лепёшка', 'Борщ, қуырдақ лагман, цезарь салаты, нан', 'Borscht, fried lagman, Caesar salad, flatbread') }),
+    I('Сет 4', '4-жиынтық', 'Set 4', 3500, { d: dd('Бешбармак, салат греческий, самса, лепёшка', 'Бешбармақ, грек салаты, самса, нан', 'Beshbarmak, Greek salad, samsa, flatbread') })
+  ]},
+  fish: { t: dd('Рыба', 'Балық', 'Fish'), items: [
+    I('Жареная рыба, 1 кг', 'Қуырылған балық, 1 кг', 'Fried fish, 1 kg', 5800, { d: DESC_FISH }),
+    I('Жареная рыба, 0,5 кг', 'Қуырылған балық, 0,5 кг', 'Fried fish, 0.5 kg', 2900, { d: DESC_FISH })
+  ]},
+  steaks: { t: dd('Стейки', 'Стейктер', 'Steaks'), items: [
+    I('Семга', 'Семга', 'Salmon steak', 5500),
+    I('Медальоны из говядины', 'Сиыр етінен медальондар', 'Beef medallions', 4800),
+    I('Рибай', 'Рибай', 'Ribeye', 5800),
+    I('Куриная грудка на гриле', 'Грильдегі тауық філесі', 'Grilled chicken breast', 2200)
+  ]},
+  pasta: { t: dd('Паста', 'Паста', 'Pasta'), items: [
+    I('Паста болоньезе', 'Болоньезе пастасы', 'Bolognese pasta', 2500),
+    I('Паста с митболами', 'Митболалы паста', 'Pasta with meatballs', 2200),
+    I('Паста с креветками и соусом песто', 'Креветкалы песто пастасы', 'Shrimp pesto pasta', 2800),
+    I('Альфредо', 'Альфредо', 'Alfredo', 2900)
+  ]},
+  sides: { t: dd('Гарнир', 'Гарнир', 'Sides'), items: [
+    I('Рис', 'Күріш', 'Rice', 690),
+    I('Пюре', 'Пюре', 'Mashed potatoes', 690),
+    I('Фри', 'Фри', 'Fries', 890),
+    I('Картофельные дольки', 'Картоп долькалары', 'Potato wedges', 1100),
+    I('Наггетсы', 'Наггетс', 'Nuggets', 1100)
+  ]},
+  sauces: { t: dd('Соусы', 'Соустар', 'Sauces'), items: [
+    I('Каймак', 'Қаймақ', 'Kaymak', 300),
+    I('Кетчуп', 'Кетчуп', 'Ketchup', 350),
+    I('Сырный соус', 'Ірімшік тұздығы', 'Cheese sauce', 300),
+    I('Стручковый перец', 'Бұрыш', 'Chili pepper', 200),
+    I('Чесночный соус', 'Сарымсақ тұздығы', 'Garlic sauce', null)
+  ]},
+  pizza: { t: dd('Пицца и фастфуд', 'Пицца және фастфуд', 'Pizza & fast food'), items: [
+    I('Четыре сезона', 'Төрт маусым', 'Four seasons', 2900, { g: GP }),
+    I('Пепперони', 'Пепперони', 'Pepperoni', 2800, { g: GP }),
+    I('Маргарита', 'Маргарита', 'Margherita', 2400, { g: GP }),
+    I('С курицей', 'Тауықпен', 'With chicken', 2700, { g: GP }),
+    I('Пицца с курицей и грибами', 'Тауық пен саңырауқұлақты пицца', 'Chicken & mushroom pizza', 2800, { g: GP }),
+    I('Клаб-сэндвич с фри', 'Клаб-сэндвич фримен', 'Club sandwich with fries', 2290, { g: GFF }),
+    I('Сосиски с фри', 'Сосискалар фримен', 'Sausages with fries', 2290, { g: GFF })
+  ]},
+  sushi: { t: dd('Роллы', 'Роллдар', 'Rolls'), items: [
+    I('Филадельфия', 'Филадельфия', 'Philadelphia', 3100, { g: GS }),
+    I('Канада', 'Канада', 'Canada', 3290, { g: GS }),
+    I('Калифорния', 'Калифорния', 'California', 2290, { g: GS }),
+    I('Унаги маки', 'Унаги маки', 'Unagi maki', 1800, { g: GS }),
+    I('Саки маки', 'Саки маки', 'Saki maki', 1800, { g: GS }),
+    I('Америка', 'Америка', 'America', 3100, { g: GF }),
+    I('Жареная канада', 'Қуырылған канада', 'Fried Canada', 3290, { g: GF }),
+    I('Филадельфия темпура', 'Филадельфия темпура', 'Philadelphia tempura', 2290, { g: GF }),
+    I('Креветки темпура', 'Креветка темпура', 'Shrimp tempura', 2290, { g: GF }),
+    I('Цезарь темпура', 'Цезарь темпура', 'Caesar tempura', 2100, { g: GF }),
+    I('Цезарь запеченный', 'Цезарь пісірілген', 'Baked Caesar', 2100, { g: GB }),
+    I('Канада запеченная', 'Пісірілген канада', 'Baked Canada', 2500, { g: GB }),
+    I('Лосось запеченный', 'Пісірілген лосось', 'Baked salmon', 3290, { g: GB }),
+    I('Креветки запеченные', 'Пісірілген креветка', 'Baked shrimp', 3290, { g: GB })
+  ]},
+  bread: { t: dd('Выпечка', 'Нан және тоқаш', 'Bakery'), items: [
+    I('Хлебная корзина', 'Нан себеті', 'Bread basket', 2200),
+    I('Баурак', 'Бауырсақ', 'Baursak', 700),
+    I('Каттама с луком', 'Пиязды қаттама', 'Kattama with onion', 700),
+    I('Каттама', 'Қаттама', 'Kattama', 650),
+    I('Лепешка', 'Күлше нан', 'Flatbread', 250),
+    I('Хачапури по мегрельски', 'Мегрель хачапуриі', 'Megrelian khachapuri', 2800),
+    I('Хачапури по аджарски', 'Аджар хачапуриі', 'Adjarian khachapuri', 2800),
+    I('Самса с мясом', 'Етті самса', 'Meat samsa', 350)
+  ]},
+  desserts: { t: dd('Десерты', 'Десерттер', 'Desserts'), items: [
+    I('Чоко-пай', 'Чоко-пай', 'Choco-pie', 1300),
+    I('Молочная девочка', 'Сүтті қыз', 'Milk girl', 1150),
+    I('Картошка', 'Картошка', 'Potato dessert', 450),
+    I('Пломбир', 'Пломбир', 'Plombir ice cream', 1150),
+    I('Наполеон', 'Наполеон', 'Napoleon cake', 1200)
+  ]},
+  misc: { t: dd('Разное', 'Басқа', 'Extras'), items: [
+    I('Казахстан маленький', 'Қазақстан (кішкентай)', 'Kazakhstan (small)', 450),
+    I('Казахстан плитка', 'Қазақстан (тақта)', 'Kazakhstan (bar)', 1500),
+    I('Алиф жевательная резинка', 'Алиф сағыз', 'Alif chewing gum', 550),
+    I('Мёд', 'Бал', 'Honey', 300),
+    I('Лимон', 'Лимон', 'Lemon', 300)
+  ]},
+  cold: { t: dd('Холодные', 'Салқын', 'Cold'), items: [
+    I('Фанта, банка 0,5 л', 'Фанта банка 0,5 л', 'Fanta can 0.5 L', 800, { g: GG }),
+    I('Фанта гранат, банка 0,5 л', 'Фанта гранат банка 0,5 л', 'Fanta pomegranate can 0.5 L', 800, { g: GG }),
+    I('Кола, банка 0,5 л', 'Кола банка 0,5 л', 'Coca-Cola can 0.5 L', 800, { g: GG }),
+    I('Фанта, 0,5 л', 'Фанта 0,5 л', 'Fanta 0.5 L', 700, { g: GG }),
+    I('Фанта / Спрайт / Кола, 1 л', 'Фанта / Спрайт / Кола, 1 л', 'Fanta / Sprite / Coca-Cola, 1 L', 850, { g: GG }),
+    I('Кола, 0,25 л (стекло)', 'Кола, 0,25 л (шыны)', 'Coca-Cola, 0.25 L (glass)', 700, { g: GG }),
+    I('Бонаква газированная / негазированная', 'Бонаква газдалған / газсыз', 'Bonaqua sparkling / still', 700, { g: GW }),
+    I('Бонаква, 1 л', 'Бонаква, 1 л', 'Bonaqua, 1 L', 700, { g: GW }),
+    I('Боржоми', 'Боржоми', 'Borjomi', 1200, { g: GW }),
+    I('Fuse Tea, 1 л', 'Fuse Tea, 1 л', 'Fuse Tea, 1 L', 850, { g: GW }),
+    I('Fuse Tea, 0,5 л', 'Fuse Tea, 0,5 л', 'Fuse Tea, 0.5 L', 700, { g: GW }),
+    I('Пико, 1 л', 'Пико, 1 л', 'Pico, 1 L', 1400, { g: GW, d: dd('Морс, мультифрукт, апельсин, персик, яблоко, ананас', 'Морс, мультифрукт, апельсин, шабдалы, алма, ананас', 'Morse, multifruit, orange, peach, apple, pineapple') }),
+    I('Сок Пико, 0,25 л', 'Пико шырыны, 0,25 л', 'Pico juice, 0.25 L', 650, { g: GW }),
+    I('Айран', 'Айран', 'Ayran', 300, { g: GW }),
+    I('Кымыз, банка 0,5 л', 'Қымыз банка 0,5 л', 'Qymyz can 0.5 L', 1000, { g: GW }),
+    I('Компот, 1 л', 'Компот, 1 л', 'Compote, 1 L', 1200, { g: GW }),
+    I('Апельсин-маракуйя, 1 л', 'Апельсин-маракуйя, 1 л', 'Orange-passion fruit, 1 L', 2090, { g: GL }),
+    I('Киви-лайм, 1 л', 'Киви-лайм, 1 л', 'Kiwi-lime, 1 L', 2090, { g: GL }),
+    I('Манго-маракуйя, 1 л', 'Манго-маракуйя, 1 л', 'Mango-passion fruit, 1 L', 2090, { g: GL }),
+    I('Мохито, 1 л', 'Мохито, 1 л', 'Mojito, 1 L', 2090, { g: GL }),
+    I('Ягодный микс, 1 л', 'Жидек микс, 1 л', 'Berry mix, 1 L', 2090, { g: GL })
+  ]},
+  hot: { t: dd('Горячие', 'Ыстық', 'Hot'), items: [
+    I('Черный чай', 'Қара шәй', 'Black tea', 790, { g: GT, a: 1 }),
+    I('Зеленый чай', 'Көк шәй', 'Green tea', 790, { g: GT, a: 1 }),
+    I('Апельсиновый чай', 'Апельсин шәйі', 'Orange tea', 1390, { g: GT }),
+    I('Имбирный чай', 'Имбирлі шәй', 'Ginger tea', 1390, { g: GT }),
+    I('Чай с молоком', 'Сүтті шәй', 'Milk tea', 1090, { g: GT }),
+    I('Облепиховый чай', 'Шырғанақ шәйі', 'Sea buckthorn tea', 1390, { g: GT }),
+    I('Ташкентский чай', 'Ташкент шәйі', 'Tashkent tea', 1090, { g: GT }),
+    I('Ягодный чай', 'Жидекті шәй', 'Berry tea', 1390, { g: GT })
+  ]}
+};
+
+// Отделы и порядок разделов
+const DEPTS = {
+  kitchen: { t: dd('Кухня', 'Ас үй', 'Kitchen'), cats: ['salads', 'soups', 'mains', 'sets', 'fish', 'steaks', 'pasta', 'sides', 'sauces', 'pizza', 'sushi', 'bread', 'desserts', 'misc'] },
+  drinks: { t: dd('Напитки', 'Сусындар', 'Drinks'), cats: ['cold', 'hot'] }
+};
+
+const ITEMS = {};
+Object.keys(CATS).forEach(cid => CATS[cid].items.forEach((it, i) => {
+  it.id = cid + '-' + i;
+  it.cat = cid;
+  ITEMS[it.id] = it;
+}));
+
+// ===== Тексты интерфейса =====
+const T = {
+  kk: { sub:'Қош келдіңіз', menu:'Мәзір', back:'Артқа', cart:'Себет', cartEmpty:'Себет бос', sum:'Сомасы', service:'Қызмет көрсету', total:'Жиыны', table:'Үстел нөмірі', tableWord:'Үстел № ', showWaiter:'Официантқа көрсету', copy:'Тапсырысты көшіру', wa:'WhatsApp-қа жіберу', clear:'Себетті тазарту', add:'Қосу', addCart:'Себетке қосу', cancel:'Бас тарту', nothing:'Ештеңе', lemon:'Лимон', honey:'Бал', copied:'Тапсырыс көшірілді. Официантқа көрсетіңіз немесе чатқа жіберіңіз.', copyEmpty:'Себет бос.', allergy:'Тағамға аллергиясы болса, официантқа айтыңыз.', tba:'нақтыланады', orderTitle:'Marhaba — тапсырыс' },
+  ru: { sub:'Добро пожаловать', menu:'Меню', back:'Назад', cart:'Корзина', cartEmpty:'Корзина пуста', sum:'Сумма', service:'Обслуживание', total:'Итого', table:'Номер стола', tableWord:'Стол № ', showWaiter:'Показать официанту', copy:'Скопировать заказ', wa:'Отправить в WhatsApp', clear:'Очистить корзину', add:'Добавить', addCart:'В корзину', cancel:'Отмена', nothing:'Ничего', lemon:'Лимон', honey:'Мёд', copied:'Заказ скопирован. Покажите его официанту или отправьте в чат.', copyEmpty:'Корзина пуста.', allergy:'Если у вас есть аллергия на продукты, сообщите, пожалуйста, официанту.', tba:'уточняется', orderTitle:'Marhaba — заказ' },
+  en: { sub:'Welcome', menu:'Menu', back:'Back', cart:'Cart', cartEmpty:'Your cart is empty', sum:'Subtotal', service:'Service', total:'Total', table:'Table number', tableWord:'Table # ', showWaiter:'Show to waiter', copy:'Copy order', wa:'Send via WhatsApp', clear:'Clear cart', add:'Add', addCart:'Add to cart', cancel:'Cancel', nothing:'Nothing', lemon:'Lemon', honey:'Honey', copied:'Order copied. Show it to the waiter or send it in a chat.', copyEmpty:'Cart is empty.', allergy:'If you have a food allergy, please tell your waiter.', tba:'TBA', orderTitle:'Marhaba — order' }
+};
+
+// ===== Состояние =====
+let lang = (() => { try { return localStorage.getItem('marhaba-lang') || 'kk'; } catch (e) { return 'kk'; } })();
+let view = { screen: 'welcome', dept: 'kitchen', cat: null };
+let addonFor = null;
+let waiterMode = false;   // показана ли сумма официанту
+
+const CART_KEY = 'marhaba-cart';
+const TABLE_KEY = 'marhaba-table';
+
+// ===== Утилиты =====
+function $(id) { return document.getElementById(id); }
+function t(k) { return (T[lang] && T[lang][k]) || T.ru[k] || k; }
+function gName(g) { return g[lang] || g.ru; }
+function nm(it) { return it.n[lang] || it.n.ru; }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+function fmt(n) { return n.toLocaleString('ru-RU') + ' ₸'; }
+function pct() { return Math.round(CONFIG.serviceRate * 100) + '%'; }
+
+// ===== Корзина =====
+function loadCart() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(CART_KEY) || '{}');
+    const out = {};
+    for (const k in raw) {
+      const e = raw[k];
+      if (!e || !ITEMS[e.id] || ITEMS[e.id].p == null) continue;
+      if (e.addon && !ADDONS[e.addon]) continue;
+      if (Number(e.qty) > 0) out[k] = { id: e.id, addon: e.addon || '', qty: Number(e.qty) };
+    }
+    return out;
+  } catch (e) { return {}; }
+}
+let cart = loadCart();
+
+function saveCart() {
+  try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
+}
+function keyFor(id, addon) { return addon ? id + '|' + addon : id; }
+function lineUnit(e) { return ITEMS[e.id].p + (e.addon ? ADDONS[e.addon].p : 0); }
+function lineName(e) { return nm(ITEMS[e.id]) + (e.addon ? ' + ' + t(e.addon) : ''); }
+function qtyFor(id) {
+  let n = 0;
+  for (const k in cart) if (cart[k].id === id) n += cart[k].qty;
+  return n;
+}
+
+function changeKey(key, d) {
+  const [id, addon] = key.split('|');
+  if (!ITEMS[id] || ITEMS[id].p == null) return;
+  if (!cart[key]) {
+    if (d <= 0) return;
+    cart[key] = { id, addon: addon || '', qty: 0 };
+  }
+  cart[key].qty += d;
+  if (cart[key].qty <= 0) delete cart[key];
+  if (!Object.keys(cart).length) waiterMode = false;
+  saveCart();
+  renderAll();
+}
+
+function totals() {
+  let sub = 0, count = 0;
+  for (const k in cart) {
+    sub += lineUnit(cart[k]) * cart[k].qty;
+    count += cart[k].qty;
+  }
+  const svc = Math.round(sub * CONFIG.serviceRate);
+  return { sub, count, svc, total: sub + svc };
+}
+
+// ===== Кнопки количества =====
+function ctlHtml(ctl) {
+  if (ctl.indexOf('a:') === 0) {
+    const id = ctl.slice(2);
+    const n = qtyFor(id);
+    return `<button class="add" type="button" data-act="open" data-id="${id}" aria-label="${t('add')}">+</button>` +
+           (n ? `<span class="count">${n}</span>` : '');
+  }
+  const q = cart[ctl] ? cart[ctl].qty : 0;
+  if (!q) return `<button class="add" type="button" data-act="inc" data-key="${ctl}" aria-label="${t('add')}">+</button>`;
+  return `<button class="qbtn" type="button" data-act="dec" data-key="${ctl}" aria-label="−">−</button>` +
+         `<span class="count">${q}</span>` +
+         `<button class="qbtn" type="button" data-act="inc" data-key="${ctl}" aria-label="+">+</button>`;
+}
+
+// ===== Отрисовка меню =====
+// Фото блюд: файл assets/dishes/<id>.jpg, где <id> — например 'mains-4' (Казан-кебаб).
+// Если файла нет, миниатюра просто убирается (onerror).
+function itemHtml(it) {
+  const price = it.p == null ? t('tba') : fmt(it.p);
+  let ctl = '';
+  if (it.p != null) {
+    const ctlKey = it.a ? 'a:' + it.id : it.id;
+    ctl = `<div class="ctl">${ctlHtml(ctlKey)}</div>`;
+  }
+  return `<div class="item">
+    <div class="thumb"><img src="assets/dishes/${it.id}.jpg" alt="" loading="lazy" onerror="this.remove()"></div>
+    <div class="info">
+      <div class="name">${esc(nm(it))}</div>
+      ${it.d ? `<div class="desc">${esc(it.d[lang] || it.d.ru)}</div>` : ''}
+    </div>
+    <div class="side">
+      <div class="price">${price}</div>
+      ${ctl}
+    </div>
+  </div>`;
+}
+
+function catHtml(cid) {
+  const cat = CATS[cid];
+  let html = '', lastGroup = null;
+  for (const it of cat.items) {
+    if (it.g && (!lastGroup || it.g.ru !== lastGroup)) {
+      html += `<h3 class="sub">${esc(gName(it.g))}</h3>`;
+      lastGroup = it.g.ru;
+    }
+    html += itemHtml(it);
+  }
+  return `<h2>${esc(gName(cat.t))}</h2><div class="list">${html}</div>`;
+}
+
+function renderScreen() {
+  const welcome = view.screen === 'welcome';
+  $('welcome').hidden = !welcome;
+  $('menuScreen').hidden = welcome;
+  if (welcome) return;
+
+  // Главное меню (разделы) — зелёный фон; внутри раздела — кремовый
+  $('menuScreen').classList.toggle('green', !view.cat);
+
+  const dept = DEPTS[view.dept];
+  $('tabs').innerHTML = Object.keys(DEPTS).map(k =>
+    `<button class="tab" type="button" data-dept="${k}" aria-pressed="${k === view.dept}">${esc(gName(DEPTS[k].t))}</button>`
+  ).join('');
+
+  if (view.cat) {
+    $('content').innerHTML = catHtml(view.cat);
+  } else {
+    $('content').innerHTML = `<div class="cards">` + dept.cats.map(cid =>
+      `<button class="card" type="button" data-open-cat="${cid}">${esc(gName(CATS[cid].t))}</button>`
+    ).join('') + `</div>`;
+  }
+  $('footNote').textContent = t('allergy');
+}
+
+// ===== Надписи =====
+function applyStatic() {
+  document.documentElement.lang = lang;
+  $('langSel').value = lang;
+  $('welcomeSub').textContent = t('sub');
+  $('toMenu').textContent = t('menu');
+  $('backBtn').textContent = '← ' + t('back');
+  $('cartTitle').textContent = t('cart');
+  $('tableLabel').textContent = t('table');
+  $('waiterBtn').textContent = t('showWaiter');
+  $('copyBtn').textContent = t('copy');
+  $('waLink').textContent = t('wa');
+  $('clearBtn').textContent = t('clear');
+  $('modalCancel').textContent = t('cancel');
+  $('modalAdd').textContent = t('addCart');
+}
+
+// ===== Корзина: панель, список, заказ =====
+function renderBar() {
+  const tot = totals();
+  // Панель корзины только в меню и только если есть позиции (без цен)
+  $('bar').hidden = view.screen !== 'menu' || tot.count === 0;
+  $('barCount').textContent = `${t('cart')} · ${tot.count}`;
+}
+
+function renderCart() {
+  const keys = Object.keys(cart);
+  // Список без цен: только то, что набрали
+  $('cartLines').innerHTML = keys.length
+    ? keys.map(k => {
+        const e = cart[k];
+        return `<div class="line">
+          <div class="info"><div class="name">${esc(lineName(e))}</div></div>
+          <div class="ctl">${ctlHtml(k)}</div>
+        </div>`;
+      }).join('')
+    : `<p class="empty">${t('cartEmpty')}</p>`;
+
+  $('waiterBtn').hidden = !keys.length || waiterMode;
+  $('billBox').hidden = !waiterMode;
+  if (waiterMode) {
+    const tot = totals();
+    $('totals').innerHTML =
+      `<div class="row"><span>${t('sum')}</span><span>${fmt(tot.sub)}</span></div>` +
+      `<div class="row"><span>${t('service')} ${pct()}</span><span>${fmt(tot.svc)}</span></div>` +
+      `<div class="row big"><span>${t('total')}</span><span>${fmt(tot.total)}</span></div>`;
+    updateOrder();
+  }
+}
+
+function buildOrder() {
+  const tot = totals();
+  const table = $('table').value;
+  const lines = Object.keys(cart).map(k => {
+    const e = cart[k];
+    return `${lineName(e)} × ${e.qty} — ${fmt(lineUnit(e) * e.qty)}`;
+  });
+  return t('orderTitle') +
+    (table ? `\n${t('tableWord')}${table}` : '') +
+    '\n\n' + (lines.length ? lines.join('\n') : t('cartEmpty')) +
+    `\n\n${t('sum')}: ${fmt(tot.sub)}` +
+    `\n${t('service')} ${pct()}: ${fmt(tot.svc)}` +
+    `\n${t('total')}: ${fmt(tot.total)}`;
+}
+
+function updateOrder() {
+  const text = buildOrder();
+  $('orderText').value = text;
+  if (CONFIG.whatsapp) {
+    $('waLink').href = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text);
+    $('waLink').hidden = false;
+  } else {
+    $('waLink').hidden = true;
+  }
+}
+
+function setStatus(msg) { $('status').textContent = msg; }
+
+function copyOrder() {
+  if (!Object.keys(cart).length) { setStatus(t('copyEmpty')); return; }
+  const text = $('orderText').value;
+  const done = () => setStatus(t('copied'));
+  const fallback = () => {
+    const ta = $('orderText');
+    ta.removeAttribute('readonly');
+    ta.select();
+    ta.setAttribute('readonly', '');
+    try { document.execCommand('copy'); done(); }
+    catch (e) { setStatus(text); }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else {
+    fallback();
+  }
+}
+
+function openDrawer() { waiterMode = false; $('drawer').hidden = false; renderCart(); }
+function closeDrawer() { waiterMode = false; $('drawer').hidden = true; }
+
+// ===== Выбор добавки (чай) =====
+function openAddon(id) {
+  addonFor = id;
+  const it = ITEMS[id];
+  $('modalTitle').textContent = nm(it);
+  const opts = [['', t('nothing')], ['lemon', t('lemon')], ['honey', t('honey')]];
+  $('modalOpts').innerHTML = opts.map(([k, label], i) =>
+    `<label class="radio"><span><input type="radio" name="addon" value="${k}" ${i === 0 ? 'checked' : ''}>${esc(label)}</span><span>${k ? '+' + fmt(ADDONS[k].p) : ''}</span></label>`
+  ).join('');
+  updateModalPrice();
+  $('modal').hidden = false;
+}
+function updateModalPrice() {
+  const sel = document.querySelector('input[name="addon"]:checked');
+  const addon = sel ? sel.value : '';
+  $('modalPrice').textContent = fmt(ITEMS[addonFor].p + (addon ? ADDONS[addon].p : 0));
+}
+function confirmAddon() {
+  const sel = document.querySelector('input[name="addon"]:checked');
+  const addon = sel ? sel.value : '';
+  $('modal').hidden = true;
+  changeKey(keyFor(addonFor, addon), 1);
+}
+function closeAddon() { $('modal').hidden = true; }
+
+// ===== Язык =====
+function setLang(l) {
+  lang = l;
+  try { localStorage.setItem('marhaba-lang', l); } catch (e) {}
+  renderAll();
+}
+
+// ===== Сборка экрана =====
+function renderAll() {
+  applyStatic();
+  renderScreen();
+  renderBar();
+  if (!$('drawer').hidden) renderCart();
+}
+
+function setupContacts() {
+  const set = (id, href, on) => {
+    const a = $(id);
+    if (!on) { a.hidden = true; return; }
+    a.href = href;
+    a.hidden = false;
+  };
+  set('cPhone', 'tel:+' + CONFIG.phone, !!CONFIG.phone);
+  set('cInsta', 'https://instagram.com/' + CONFIG.instagram, !!CONFIG.instagram);
+  set('cWa', 'https://wa.me/' + CONFIG.whatsapp, !!CONFIG.whatsapp);
+}
+
+function setupTable() {
+  const fromUrl = new URLSearchParams(location.search).get('table');
+  let saved = null;
+  try { saved = localStorage.getItem(TABLE_KEY); } catch (e) {}
+  $('table').value = String(fromUrl || saved || '').replace(/\D/g, '').slice(0, 3);
+}
+
+// ===== Обработчики =====
+function wire() {
+  $('langSel').addEventListener('change', e => setLang(e.target.value));
+
+  $('toMenu').addEventListener('click', () => {
+    view = { screen: 'menu', dept: 'kitchen', cat: null };
+    renderAll();
+    window.scrollTo(0, 0);
+  });
+  $('backBtn').addEventListener('click', () => {
+    if (view.cat) view.cat = null;
+    else view = { screen: 'welcome', dept: 'kitchen', cat: null };
+    renderAll();
+    window.scrollTo(0, 0);
+  });
+  $('openCart').addEventListener('click', openDrawer);
+  $('closeCart').addEventListener('click', closeDrawer);
+  $('drawer').addEventListener('click', e => { if (e.target === $('drawer')) closeDrawer(); });
+  $('waiterBtn').addEventListener('click', () => { waiterMode = true; renderCart(); });
+  $('clearBtn').addEventListener('click', () => { cart = {}; waiterMode = false; saveCart(); setStatus(''); renderAll(); });
+  $('copyBtn').addEventListener('click', copyOrder);
+  $('table').addEventListener('input', e => {
+    e.target.value = e.target.value.replace(/\D/g, '').slice(0, 3);
+    try { localStorage.setItem(TABLE_KEY, e.target.value); } catch (err) {}
+    updateOrder();
+  });
+  $('modalAdd').addEventListener('click', confirmAddon);
+  $('modalCancel').addEventListener('click', closeAddon);
+  $('modal').addEventListener('click', e => { if (e.target === $('modal')) closeAddon(); });
+  $('modalOpts').addEventListener('change', updateModalPrice);
+
+  document.addEventListener('click', e => {
+    const c = sel => (e.target.closest ? e.target.closest(sel) : null);
+    let b;
+    if ((b = c('[data-act]'))) {
+      if (b.dataset.act === 'open') openAddon(b.dataset.id);
+      else changeKey(b.dataset.key, b.dataset.act === 'inc' ? 1 : -1);
+      return;
+    }
+    if ((b = c('[data-dept]'))) { view.dept = b.dataset.dept; view.cat = null; renderAll(); window.scrollTo(0, 0); return; }
+    if ((b = c('[data-open-cat]'))) { view.cat = b.dataset.openCat; renderAll(); window.scrollTo(0, 0); return; }
+  });
+}
+
+function init() {
+  setupContacts();
+  setupTable();
+  wire();
+  renderAll();
+}
+
+init();
+</script>
+</body>
+</html>
